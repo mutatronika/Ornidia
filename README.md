@@ -17,7 +17,19 @@
             |
         BH1750FVI (I2C)
 
-
+# Resumen de tu Hardware
+Componente	Especificación
+Panel Solar (Hybrytec)	3W, 12V (Vmax), 0.25A (Imax), Voc 15V, Isc 0.29A
+Controlador de Carga (PWM)	12V/24V, 20A
+Batería (MTEK)	12V, 2.7Ah
+ESP8266	Microcontrolador principal
+Sensores	ACS712 (corriente), CD4052B (multiplexor), Divisor de tensión (voltaje), BH1750 (luz)
+📌 Tu sistema monitorea:
+✅ Corriente del panel
+✅ Corriente de la batería
+✅ Corriente de la carga
+✅ Voltaje del panel
+✅ Luz ambiente
 
  
 
