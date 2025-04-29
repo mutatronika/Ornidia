@@ -32,7 +32,15 @@ Sensores	ACS712 (corriente), CD4052B (multiplexor), Divisor de tensión (voltaje
 ✅ Luz ambiente
 
  
+Características: PWM Solar Charge Controller
 
+Voltaje de carga:12V ó 24V
+Capacidad: 20A
+Rango de temperatura: -25~55°C
+Voltaje de protección de sobre descarga: 10,5V ó 21V
+Voltaje de protección de sobre carga :14,4V ó 27,4V
+Voltaje de Swicheo: 11,8V o 23,6V
+Voltaje de protección de sobrecarga:14V ó 28V
 
                    [ Panel Solar 12V ]
                            │
