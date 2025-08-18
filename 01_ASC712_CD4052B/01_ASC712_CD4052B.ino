@@ -1,3 +1,4 @@
+
 #include <ACS712.h>
 
 #define PIN_ANALOG A0    // Entrada analógica de ESP8266
