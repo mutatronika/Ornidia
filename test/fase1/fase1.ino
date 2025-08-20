@@ -351,17 +351,17 @@ void mostrarLecturas() {
     // Estado del sistema
     Serial.print("📊 Estado: ");
     if (corrientePanel > 0.05) {
-        Serial.print("Generando ☀️");
+        Serial.print("Generando ☀");
     } else {
         Serial.print("Sin sol 🌙");
     }
     
-    if (corrienteBateria < -0.05) {
-        Serial.println(" | Cargando 🔋⬆️");
-    } else if (corrienteBateria > 0.05) {
-        Serial.println(" | Descargando 🔋⬇️");
+    if (corrienteBateria > 0.05) {
+        Serial.println(" | Cargando 🔋⬆");
+    } else if (corrienteBateria < -0.05) {
+        Serial.println(" | Descargando 🔋⬇");
     } else {
-        Serial.println(" | Equilibrio 🔋⚖️");
+        Serial.println(" | Equilibrio 🔋⚖");
     }
     
     Serial.println("═══════════════════════════════════");
