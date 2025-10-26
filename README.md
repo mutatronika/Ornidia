@@ -150,3 +150,45 @@ S1 (D6)	S0 (D5)	Canal Activo	Sensor
 1	0	X2	ACS712 Carga
 1	1	X3	Voltaje del Panel
 ✅ La ESP8266 cambia S0 y S1 para seleccionar qué sensor leer en A0.
+
+---
+
+## 🧪 Verificación de Integridad del Proyecto
+
+Este proyecto incluye un sistema automatizado de verificación de integridad que valida:
+- ✅ Estructura del proyecto
+- ✅ Sintaxis de todos los sketches Arduino
+- ✅ Dependencias de librerías
+- ✅ Archivos de interfaz web
+- ✅ Documentación
+- ✅ Integridad del repositorio Git
+
+### Ejecutar Verificación
+
+```bash
+# Hacer el script ejecutable (solo primera vez)
+chmod +x verify_integrity.sh
+
+# Ejecutar verificación
+./verify_integrity.sh
+```
+
+### Resultado Esperado
+```
+✓ ALL TESTS PASSED! ✓
+Total Tests: 76
+Passed: 76
+Failed: 0
+```
+
+### Documentación de Pruebas
+
+- 📘 **[TESTING.md](TESTING.md)** - Guía completa de pruebas y verificación
+- 📗 **[LIBRARIES.md](LIBRARIES.md)** - Dependencias y librerías requeridas
+- 📙 **[QUICKSTART.md](QUICKSTART.md)** - Guía rápida de inicio
+
+### CI/CD
+
+El proyecto incluye GitHub Actions que ejecutan automáticamente la verificación de integridad en cada push o pull request.
+
+Ver: `.github/workflows/integrity-check.yml`
