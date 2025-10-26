@@ -11,6 +11,11 @@ jobs:
   verify-integrity:
     runs-on: ubuntu-latest
     
+    # Restrict permissions to minimum required
+    permissions:
+      contents: read
+      actions: read
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
