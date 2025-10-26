@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Arduino build artifacts
+*.hex
+*.elf
+*.map
+build/
+.build/
+
+# Test results and temporary files
+/tmp/
+*.log
+*_test_results.txt
+verification_output.txt
