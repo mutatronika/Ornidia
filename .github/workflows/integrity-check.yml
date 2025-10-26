@@ -1,0 +1,43 @@
+name: Project Integrity Verification
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  verify-integrity:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Make verification script executable
+      run: chmod +x verify_integrity.sh
+      
+    - name: Run integrity verification
+      run: ./verify_integrity.sh
+      
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: /tmp/ornidia_test_results.txt
+        retention-days: 30
+        
+    - name: Display test summary
+      if: always()
+      run: |
+        echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f /tmp/ornidia_test_results.txt ]; then
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/ornidia_test_results.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Test results file not found" >> $GITHUB_STEP_SUMMARY
+        fi
