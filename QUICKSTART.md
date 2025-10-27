@@ -87,7 +87,7 @@ cd greenhouse/
 
 **Hardware necesario:**
 - ESP8266, ESP32 o Arduino Mega
-- BMP180 (presión y temperatura)
+- BMP180 o BME280 (presión y temperatura)
 - DHT22 (temperatura y humedad)
 - BH1750 (luz ambiente)
 - Anemómetro (opcional)
@@ -98,6 +98,9 @@ cd greenhouse/
 arduino-cli lib install "DHT sensor library"
 arduino-cli lib install "Adafruit Unified Sensor"
 arduino-cli lib install "BH1750"
+# Para BMP180:
+# arduino-cli lib install "Adafruit BMP085 Unified"
+# Para BME280 (recomendado, incluye humedad):
 arduino-cli lib install "Adafruit BME280 Library"
 ```
 
