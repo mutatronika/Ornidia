@@ -1,155 +1,201 @@
 # Ornidia
- Monitoreo de Panel solar con ESP8266
- 
-                 Panel Solar (Hybrytec)
-                        |
-                        | (Corriente medida con ACS712)
-                        |
-        [ PWM Charge Controller ]
-            |            |
-        Batería        Carga
-        🔋             📦
-        |             | (Corriente medida con ACS712)
-        |
-        | (Corriente medida con ACS712)
-        |
-       ESP8266 ← Multiplexor CD4052B ← Sensores
-            |
-        BH1750FVI (I2C)
+Proyecto de Sistemas de Monitoreo con Microcontroladores
 
-# Resumen de tu Hardware
-Componente	Especificación
-Panel Solar (Hybrytec)	3W, 12V (Vmax), 0.25A (Imax), Voc 15V, Isc 0.29A
-Controlador de Carga (PWM)	12V/24V, 20A
-Batería (MTEK)	12V, 2.7Ah
-ESP8266	Microcontrolador principal
-Sensores	ACS712 (corriente), CD4052B (multiplexor), Divisor de tensión (voltaje), BH1750 (luz)
-📌 Tu sistema monitorea:
-✅ Corriente del panel
-✅ Corriente de la batería
-✅ Corriente de la carga
-✅ Voltaje del panel
-✅ Luz ambiente
+## 🎯 Descripción
 
- 
-Características: PWM Solar Charge Controller
+Ornidia es un proyecto integral de monitoreo y control basado en microcontroladores (PIC, Arduino, ESP32, ESP8266, Raspberry Pi, etc.) dividido en tres sistemas principales:
 
-Voltaje de carga:12V ó 24V
-Capacidad: 20A
-Rango de temperatura: -25~55°C
-Voltaje de protección de sobre descarga: 10,5V ó 21V
-Voltaje de protección de sobre carga :14,4V ó 27,4V
-Voltaje de Swicheo: 11,8V o 23,6V
-Voltaje de protección de sobrecarga:14V ó 28V
+1. **🔆 Monitoreo de Panel Solar** - Sistema de monitoreo de energía solar
+2. **🌱 Monitoreo de Invernadero** - Sistema de control ambiental para cultivos
+3. **🌤️ Estación Meteorológica** - Sistema de medición de parámetros atmosféricos
 
-                   [ Panel Solar 12V ]
-                           │
-           (Corriente Panel medida con ACS712)
-                           │
-       +-------------------+----------------+
-       |  Controlador PWM Solar (12V)       |
-       |  - Carga Batería                    |
-       |  - Alimentación de Carga (12V)      |
-       +-------------------+----------------+
-                           │
-                           │
-      (Corriente Batería medida con ACS712)
-                           │
-                 +------------------+
-                 |   Batería 12V     |
-                 +------------------+
-                           │
-         (Corriente Carga medida con ACS712)
-                           │
-         +-----------------------------------+
-         |       Regulador 12V → 5V (MC34063A) |
-         |        - Alimenta ESP8266           |
-         +-----------------------------------+
-                           │
-         +-----------------------------------+
-         |         ESP8266 (WiFi)            |
-         |  - Recibe 5V del MC34063A         |
-         |  - Controla Multiplexor CD4052B   |
-         |  - Lee sensores ACS712            |
-         |  - Lee voltaje del panel con Divisor |
-         |  - Muestra datos en Web/MQTT      |
-         +-----------------------------------+
-                           │
-    +--------------------------------------------------+
-    |    Multiplexor CD4052B (4 Canales Analógicos)   |
-    |    CH0 - ACS712 (Panel)                         |
-    |    CH1 - ACS712 (Batería)                       |
-    |    CH2 - ACS712 (Carga)                         |
-    |    CH3 - Divisor de Voltaje (Panel)            |
-    +--------------------------------------------------+
+Cada sistema utiliza diversos sensores y actuadores para obtener datos y almacenarlos en servidores caseros y/o cloud.
 
+---
 
-Regulacion 12V a 5V
+## 📂 Estructura del Proyecto
 
-    12V del PWM
-       │
-       │   +---------+
-       ├──►| Vin     |
-       │   |         | MC34063A
-       ├──►| SW      |────┬──► +5V a ESP8266
-       │   |         |    │
-       │   |         |   (Inductor 100µH)
-       │   +---------+    │
-       │                 │
-       └─────────────────┘ GND
+```
+Ornidia/
+├── solar_panel/          # Sistema de monitoreo de panel solar
+│   ├── README.md         # Documentación del sistema solar
+│   ├── solar_monitor.ino # Sketch principal
+│   ├── data/             # Interfaz web
+│   ├── examples/         # Ejemplos y pruebas
+│   └── sensors/          # Código de sensores específicos
+│
+├── greenhouse/           # Sistema de monitoreo de invernadero
+│   ├── README.md         # Documentación del invernadero
+│   ├── sensors/          # Sensores (DHT, BH1750, humedad suelo)
+│   ├── examples/         # Ejemplos de automatización
+│   └── docs/             # Guías de cultivos y automatización
+│
+├── weather_station/      # Estación meteorológica
+│   ├── README.md         # Documentación de la estación
+│   ├── sensors/          # Sensores (BMP180, anemómetro, etc.)
+│   ├── examples/         # Ejemplos de configuración
+│   └── docs/             # Guías de instalación y calibración
+│
+├── LIBRARIES.md          # Dependencias de librerías
+├── TESTING.md            # Guía de pruebas
+├── QUICKSTART.md         # Inicio rápido
+└── verify_integrity.sh   # Script de verificación
+```
 
+---
 
-Divisor de VOltaje 
+## 🔆 Sistema de Monitoreo de Panel Solar
 
-        +--------------+
-        | Panel Solar  |
-        |  12V-15V     |
-        +--------------+
-                |
-       (Divisor de Voltaje)
-                |
-           ESP8266 (A0)
-+---------------------------------+
+Sistema completo de monitoreo para instalaciones de energía solar con ESP8266.
 
-        +12V del Panel Solar
-                |
-              [ R1 ] (100KΩ)
-                |
-        -------> (A0 ESP8266)
-                |
-              [ R2 ] (22KΩ)
-                |
-               GND
+### Hardware
+- Panel Solar Hybrytec (3W, 12V)
+- Controlador PWM (12V/24V, 20A)
+- Batería MTEK (12V, 2.7Ah)
+- ESP8266 con WiFi
+- Sensores: ACS712 (×3), CD4052B, BH1750FVI
 
+### Parámetros Monitoreados
+- ✅ Corriente del panel, batería y carga
+- ✅ Voltaje del panel
+- ✅ Potencia generada
+- ✅ Luz ambiente
 
+**[Ver documentación completa →](solar_panel/README.md)**
 
+---
 
-ACS712ELCTR-05B-T: Para mediciones precisas de hasta ±5A
-ACS712ELCTR-20A-T: Para rangos más amplios de hasta ±20A
-ACS712ELCTR-30A-T: Para las mayores corrientes de hasta ±30A
+## 🌱 Sistema de Monitoreo de Invernadero
 
+Sistema de control ambiental para optimizar el crecimiento de plantas.
 
-Conexión del CD4052B con la ESP8266
-Pin del CD4052B	Conexión	Descripción
-VCC (Pin 16)	3.3V ESP8266	Alimentación del multiplexor
-GND (Pin 8)	GND ESP8266	Tierra
-X (Pin 14)	A0 ESP8266	Salida común (único canal analógico de ESP8266)
-X0 (Pin 15)	Salida ACS712 Panel	Sensor de corriente del panel
-X1 (Pin 12)	Salida ACS712 Batería	Sensor de corriente de la batería
-X2 (Pin 13)	Salida ACS712 Carga	Sensor de corriente de la carga
-X3 (Pin 10)	Salida del divisor de voltaje	Voltaje del panel
-S0 (Pin 9)	D5 ESP8266	Selector de canal (Bit 0)
-S1 (Pin 10)	D6 ESP8266	Selector de canal (Bit 1)
-INH (Pin 6)	GND ESP8266	Habilitación (debe estar en GND para funcionar)
-Y (Pin 3)	Sin usar	No lo necesitamos
-📌 Cómo se selecciona cada canal usando S0 y S1:
+### Hardware
+- ESP8266 / ESP32 / Arduino
+- Sensores: DHT11/DHT22, BH1750, humedad de suelo
+- Actuadores: relés, bombas, ventiladores, luces LED
 
-S1 (D6)	S0 (D5)	Canal Activo	Sensor
-0	0	X0	ACS712 Panel
-0	1	X1	ACS712 Batería
-1	0	X2	ACS712 Carga
-1	1	X3	Voltaje del Panel
-✅ La ESP8266 cambia S0 y S1 para seleccionar qué sensor leer en A0.
+### Parámetros Monitoreados
+- 🌡️ Temperatura y humedad del aire
+- ☀️ Intensidad lumínica
+- 🌱 Humedad del suelo
+- 📊 VPD (Déficit de Presión de Vapor)
+
+### Automatización
+- Riego automático
+- Control de ventilación
+- Iluminación suplementaria
+- Alertas por condiciones críticas
+
+**[Ver documentación completa →](greenhouse/README.md)**
+
+---
+
+## 🌤️ Estación Meteorológica
+
+Sistema completo de medición de parámetros atmosféricos.
+
+### Hardware
+- ESP8266 / ESP32 / Arduino Mega / Raspberry Pi
+- Sensores: BMP180, DHT22, BH1750, anemómetro, pluviómetro
+- Carcasa impermeable para exteriores
+
+### Parámetros Medidos
+- 🌡️ Temperatura y humedad
+- 🏔️ Presión atmosférica
+- 💨 Velocidad y dirección del viento
+- 🌧️ Precipitación
+- ☀️ Intensidad lumínica e índice UV
+
+### Datos Calculados
+- Punto de rocío
+- Heat index y wind chill
+- Tendencia de presión
+- Predicción meteorológica básica
+
+**[Ver documentación completa →](weather_station/README.md)**
+
+---
+
+## 🔧 Plataformas Soportadas
+
+El proyecto es compatible con múltiples microcontroladores:
+
+- ✅ **ESP8266** - WiFi integrado, ideal para IoT
+- ✅ **ESP32** - Mayor potencia y conectividad
+- ✅ **Arduino** (Uno, Mega, Nano) - Plataforma estándar
+- 🔄 **Raspberry Pi** - Para procesamiento avanzado
+- 🔄 **PIC** - Microcontroladores Microchip (en desarrollo)
+
+---
+
+## 💾 Almacenamiento de Datos
+
+Todos los sistemas soportan múltiples opciones de almacenamiento:
+
+### Local
+- 📂 **Tarjeta SD** - Almacenamiento persistente
+- 🌐 **Servidor web local** - Dashboard en tiempo real
+- 💻 **Servidor casero** - MySQL, PostgreSQL, InfluxDB
+
+### Cloud
+- ☁️ **MQTT Broker** - Mosquitto, HiveMQ
+- 📊 **ThingSpeak** - Plataforma IoT de MathWorks
+- 🌐 **Blynk** - App móvil y dashboard
+- 📈 **Grafana** - Visualización avanzada
+- 🏠 **Home Assistant** - Integración domótica
+
+---
+
+## 📚 Librerías Requeridas
+
+### Sensores Principales
+```bash
+arduino-cli lib install "ACS712"
+arduino-cli lib install "DHT sensor library"
+arduino-cli lib install "Adafruit Unified Sensor"
+arduino-cli lib install "BH1750"
+arduino-cli lib install "Adafruit BME280 Library"
+```
+
+### Comunicación
+- Wire (I2C) - Incluida
+- SPI - Incluida
+- Ethernet - Incluida
+- WiFi (ESP8266/ESP32) - Incluida
+
+**[Ver lista completa →](LIBRARIES.md)**
+
+---
+
+## 🚀 Inicio Rápido
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/mutatronika/Ornidia.git
+cd Ornidia
+```
+
+### 2. Seleccionar el sistema
+Navega al directorio del sistema que deseas usar:
+- `cd solar_panel/` para monitoreo solar
+- `cd greenhouse/` para invernadero
+- `cd weather_station/` para estación meteorológica
+
+### 3. Instalar librerías
+```bash
+# Ver LIBRARIES.md para lista completa
+arduino-cli lib install "ACS712"
+arduino-cli lib install "DHT sensor library"
+# ... etc
+```
+
+### 4. Compilar y cargar
+```bash
+arduino-cli compile --fqbn esp8266:esp8266:generic
+arduino-cli upload -p /dev/ttyUSB0 --fqbn esp8266:esp8266:generic
+```
+
+**[Guía completa de inicio →](QUICKSTART.md)**
 
 ---
 

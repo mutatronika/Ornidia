@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor Solar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema de Monitoreo Solar</h1>
+        </header>
+        
+        <div class="dashboard">
+            <!-- Panel Solar -->
+            <div class="card">
+                <h2>Panel Solar</h2>
+                <div class="status-led" id="panel-led"></div>
+                <div class="data">
+                    <p>Voltaje: <span id="panel-voltaje">0.00</span> V</p>
+                    <p>Corriente: <span id="panel-corriente">0.000</span> A</p>
+                    <p>Potencia: <span id="panel-potencia">0.00</span> W</p>
+                </div>
+            </div>
+            
+            <!-- Batería -->
+            <div class="card">
+                <h2>Batería</h2>
+                <div class="status-led" id="bateria-led"></div>
+                <div class="data">
+                    <p>Voltaje: <span id="bateria-voltaje">0.00</span> V</p>
+                    <p>Corriente: <span id="bateria-corriente">0.000</span> A</p>
+                    <p>Potencia: <span id="bateria-potencia">0.00</span> W</p>
+                </div>
+            </div>
+            
+            <!-- Carga -->
+            <div class="card">
+                <h2>Carga</h2>
+                <div class="status-led" id="carga-led"></div>
+                <div class="data">
+                    <p>Voltaje: <span id="carga-voltaje">0.00</span> V</p>
+                    <p>Corriente: <span id="carga-corriente">0.000</span> A</p>
+                    <p>Potencia: <span id="carga-potencia">0.00</span> W</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="indicadores">
+            <div class="indicator">
+                <h3>Estado de la Batería</h3>
+                <p>Verde: Voltaje > 12V</p>
+                <p>Rojo: Voltaje ≤ 12V</p>
+            </div>
+            <div class="indicator">
+                <h3>Estado de Carga</h3>
+                <p>Verde: Corriente < 1A</p>
+                <p>Rojo: Corriente ≥ 1A</p>
+            </div>
+            <div class="indicator">
+                <h3>Estado del Panel</h3>
+                <p>Verde: Voltaje > 14V</p>
+                <p>Rojo: Voltaje ≤ 14V</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
