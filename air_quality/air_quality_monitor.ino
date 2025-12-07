@@ -27,6 +27,7 @@
 
 // Librerías de sensores (instalar según sensores usados)
 #ifdef USE_PMS5003
+  // Descomentar las siguientes líneas si tienes instalada la librería PMS
   // #include <PMS.h>
   // PMS pms(Serial1);  // Para Arduino Mega (Hardware Serial)
   // Para Arduino Uno/Nano usar SoftwareSerial
@@ -34,17 +35,20 @@
 #endif
 
 #ifdef USE_MHZ19B
+  // Descomentar si tienes la librería MH-Z19 instalada
   // #include <MHZ19.h>
   SoftwareSerial mhz19Serial(2, 3); // RX, TX
   // MHZ19 mhz19;
 #endif
 
 #ifdef USE_CCS811
+  // Descomentar si tienes la librería Adafruit CCS811 instalada
   // #include <Adafruit_CCS811.h>
   // Adafruit_CCS811 ccs;
 #endif
 
 #ifdef USE_BME280
+  // Descomentar si tienes la librería Adafruit BME280 instalada
   // #include <Adafruit_BME280.h>
   // Adafruit_BME280 bme;
 #endif

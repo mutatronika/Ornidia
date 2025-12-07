@@ -15,6 +15,13 @@
  * arduino-cli lib install "PMS Library"
  */
 
+/*
+ * Librería requerida: PMS Library
+ * arduino-cli lib install "PMS Library"
+ * 
+ * Descomentar las siguientes líneas después de instalar la librería
+ */
+
 #include <SoftwareSerial.h>
 // #include <PMS.h>
 

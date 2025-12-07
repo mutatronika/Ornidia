@@ -10,6 +10,11 @@
  * - BME280 (temp/humedad/presión)
  * - Carcasa ventilada IP65
  * 
+ * Librerías requeridas:
+ * arduino-cli lib install "Adafruit BME280 Library"
+ * 
+ * Descomentar las siguientes líneas después de instalar las librerías
+ * 
  * Conexiones:
  * PMS5003:
  *   VCC -> 5V

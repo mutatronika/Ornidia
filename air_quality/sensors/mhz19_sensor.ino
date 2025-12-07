@@ -14,6 +14,13 @@
  * arduino-cli lib install "MH-Z19"
  */
 
+/*
+ * Librería requerida: MH-Z19
+ * arduino-cli lib install "MH-Z19"
+ * 
+ * Descomentar las siguientes líneas después de instalar la librería
+ */
+
 #include <SoftwareSerial.h>
 // #include <MHZ19.h>
 

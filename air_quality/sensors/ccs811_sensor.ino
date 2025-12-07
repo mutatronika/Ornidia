@@ -15,6 +15,13 @@
  * arduino-cli lib install "Adafruit CCS811 Library"
  */
 
+/*
+ * Librería requerida: Adafruit CCS811 Library
+ * arduino-cli lib install "Adafruit CCS811 Library"
+ * 
+ * Descomentar las siguientes líneas después de instalar la librería
+ */
+
 #include <Wire.h>
 // #include <Adafruit_CCS811.h>
 
