@@ -131,45 +131,102 @@ arduino-cli lib install "Adafruit BME280 Library"
 
 ---
 
-## 📊 Tabla de Compatibilidad de Librerías
+## 💨 Sistema de Medición de Calidad del Aire
 
-| Librería | Sistema Solar | Invernadero | Meteorológica | Versión Mínima |
-|----------|--------------|-------------|---------------|----------------|
-| ACS712 | ✅ | ❌ | ❌ | 0.2.0 |
-| DHT sensor library | ❌ | ✅ | ✅ | 1.3.0 |
-| Adafruit Unified Sensor | ❌ | ✅ | ✅ | 1.1.0 |
-| BH1750 | ✅ | ✅ | ✅ | 1.1.0 |
-| BMP180I2C | ❌ | ❌ | ✅ | - |
-| Wire (I2C) | ✅ | ✅ | ✅ | - |
-| SPI | ✅ | ❌ | ❌ | - |
-| Ethernet | ✅ | ❌* | ❌* | 2.0.0 |
-| SD | ✅ | ❌* | ❌* | 1.2.0 |
+### Librerías Específicas
+- **PMS Library** - Sensores de partículas Plantower PMS5003/PMS7003
+  - Versión recomendada: 1.1.0 o superior
+  - Repositorio: https://github.com/fu-hsi/pms
+  - Uso: Medición de PM1.0, PM2.5, PM10
 
-*Opcional según implementación
+- **MH-Z19** - Sensor de CO₂ NDIR MH-Z19B
+  - Versión recomendada: 1.5.4 o superior
+  - Repositorio: https://github.com/WifWaf/MH-Z19
+  - Uso: Medición precisa de CO₂ (400-5000 ppm)
+
+- **Adafruit CCS811 Library** - Sensor eCO₂ y TVOC
+  - Versión recomendada: 1.1.0 o superior
+  - Repositorio: https://github.com/adafruit/Adafruit_CCS811
+  - Uso: eCO₂ y compuestos orgánicos volátiles
+  - **Dependencia**: Adafruit Unified Sensor
+
+- **Adafruit BME280 Library** - Sensor ambiental
+  - Compartido con Estación Meteorológica
+  - Uso: Temperatura, humedad, presión para calibración
+
+### Librerías de Comunicación
+- **Wire** - I2C (incluida con Arduino IDE)
+- **SoftwareSerial** - UART para sensores (incluida)
+
+### Instalación
+```bash
+arduino-cli lib install "PMS Library"
+arduino-cli lib install "MH-Z19"
+arduino-cli lib install "Adafruit CCS811 Library"
+arduino-cli lib install "Adafruit BME280 Library"
+arduino-cli lib install "Adafruit Unified Sensor"
+```
+
+### Sketches
+- `air_quality/air_quality_monitor.ino` - Monitor completo
+- `air_quality/sensors/pms5003_sensor.ino` - Ejemplo PMS5003
+- `air_quality/sensors/mhz19_sensor.ino` - Ejemplo MH-Z19B
+- `air_quality/sensors/ccs811_sensor.ino` - Ejemplo CCS811
+- `air_quality/sensors/mq135_sensor.ino` - Ejemplo MQ-135 (analógico)
 
 ---
 
+## 📊 Tabla de Compatibilidad de Librerías
+
+| Librería | Panel Solar | Invernadero | Meteorológica | Calidad Aire | Versión Mínima |
+|----------|-------------|-------------|---------------|--------------|----------------|
+| ACS712 | ✅ | ❌ | ❌ | ❌ | 0.2.0 |
+| DHT sensor library | ❌ | ✅ | ✅ | ❌ | 1.3.0 |
+| Adafruit Unified Sensor | ❌ | ✅ | ✅ | ✅ | 1.1.0 |
+| BH1750 | ✅ | ✅ | ✅ | ❌ | 1.1.0 |
+| BMP180I2C | ❌ | ❌ | ✅ | ❌ | - |
+| PMS Library | ❌ | ❌ | ❌ | ✅ | 1.1.0 |
+| MH-Z19 | ❌ | ❌ | ❌ | ✅ | 1.5.4 |
+| Adafruit CCS811 | ❌ | ❌ | ❌ | ✅ | 1.1.0 |
+| Adafruit BME280 | ❌ | ❌ | ✅ | ✅* | 2.0.0 |
+| Wire (I2C) | ✅ | ✅ | ✅ | ✅ | - |
+| SoftwareSerial | ❌ | ❌ | ❌ | ✅ | - |
+| SPI | ✅ | ❌ | ❌ | ❌ | - |
+| Ethernet | ✅ | ❌** | ❌** | ❌** | 2.0.0 |
+| SD | ✅ | ❌** | ❌** | ❌** | 1.2.0 |
+
+*Opcional para calibración ambiental
+**Opcional según implementación
+
+---
+
+## 🔧 Compatibilidad por Plataforma
 
 ### ESP8266
-- Todas las librerías listadas son compatibles
+- Compatible con: Panel Solar, Invernadero, Estación Meteorológica
+- Librerías soportadas: Todas excepto las específicas de calidad del aire
 - Board Manager URL: `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
 - Instalación: Tools → Board → Boards Manager → buscar "ESP8266"
-- Recomendado para: Todos los sistemas (WiFi integrado)
+- Ventaja: WiFi integrado, ideal para IoT
 
 ### ESP32
-- Todas las librerías listadas son compatibles
+- Compatible con: Invernadero, Estación Meteorológica
+- Librerías soportadas: Todas las de ESP8266 + más memoria/procesamiento
 - Board Manager URL: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
-- Recomendado para: Sistemas que requieren más potencia o Bluetooth
+- Ventaja: Mayor potencia, Bluetooth, dual-core
 
 ### Arduino (Uno, Mega, Nano)
-- Compatible con todas las librerías
-- Arduino Mega: Usado en ejemplos con Ethernet/SD
-- Limitación: Sin WiFi integrado (usar módulo externo)
-- Recomendado para: Sistema solar con Ethernet
+- Compatible con: Invernadero, Estación Meteorológica, Calidad del Aire
+- Librerías soportadas: Todas
+- Arduino Mega: Recomendado para proyectos con muchos sensores (más pines y memoria)
+- Limitación: Sin WiFi integrado (usar módulo ESP8266/ESP32 externo o Ethernet)
+- Ventaja: Estándar, económico, amplia compatibilidad
 
 ### Raspberry Pi
-- Usar librerías Python equivalentes (futuro)
-- Recomendado para: Procesamiento avanzado y servidor
+- Compatible con: Estación Meteorológica, Calidad del Aire
+- Librerías: Usar equivalentes en Python (RPi.GPIO, smbus, pyserial)
+- Ventaja: Procesamiento avanzado, Linux completo, múltiples interfaces
+- Recomendado para: Servidor de datos, procesamiento ML, dashboard local
 
 ---
 
@@ -236,6 +293,17 @@ arduino-cli lib install "BH1750"
 arduino-cli lib install "Adafruit BME280 Library"
 ```
 
+### Para Sistema de Calidad del Aire
+```bash
+arduino-cli lib update-index
+arduino-cli lib install "PMS Library"
+arduino-cli lib install "MH-Z19"
+arduino-cli lib install "Adafruit CCS811 Library"
+arduino-cli lib install "Adafruit BME280 Library"
+arduino-cli lib install "Adafruit Unified Sensor"
+```
+
+
 ### Para Todos los Sistemas (Completo)
 ```bash
 arduino-cli lib update-index
@@ -244,6 +312,9 @@ arduino-cli lib install "DHT sensor library"
 arduino-cli lib install "Adafruit Unified Sensor"
 arduino-cli lib install "BH1750"
 arduino-cli lib install "Adafruit BME280 Library"
+arduino-cli lib install "PMS Library"
+arduino-cli lib install "MH-Z19"
+arduino-cli lib install "Adafruit CCS811 Library"
 ```
 
 ---

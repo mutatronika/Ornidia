@@ -3,11 +3,12 @@ Proyecto de Sistemas de Monitoreo con Microcontroladores
 
 ## 🎯 Descripción
 
-Ornidia es un proyecto integral de monitoreo y control basado en microcontroladores (PIC, Arduino, ESP32, ESP8266, Raspberry Pi, etc.) dividido en tres sistemas principales:
+Ornidia es un proyecto integral de monitoreo y control basado en microcontroladores (Arduino, ESP32, ESP8266, Raspberry Pi, etc.) dividido en cuatro sistemas principales:
 
-1. **🔆 Monitoreo de Panel Solar** - Sistema de monitoreo de energía solar
-2. **🌱 Monitoreo de Invernadero** - Sistema de control ambiental para cultivos
-3. **🌤️ Estación Meteorológica** - Sistema de medición de parámetros atmosféricos
+1. **🔆 Monitoreo de Panel Solar** - Sistema de monitoreo de energía solar (ESP8266)
+2. **🌱 Invernadero Inteligente** - Sistema de control ambiental para cultivos (ESP32, ESP8266, Arduino)
+3. **🌤️ Estación Meteorológica** - Sistema de medición de parámetros atmosféricos (ESP32, ESP8266, Arduino Mega, Raspberry Pi)
+4. **💨 Medidor de Calidad del Aire** - Sistema de monitoreo de contaminantes y partículas (Arduino, Raspberry Pi)
 
 Cada sistema utiliza diversos sensores y actuadores para obtener datos y almacenarlos en servidores caseros y/o cloud.
 
@@ -35,6 +36,13 @@ Ornidia/
 │   ├── sensors/          # Sensores (BMP180, anemómetro, etc.)
 │   ├── examples/         # Ejemplos de configuración
 │   └── docs/             # Guías de instalación y calibración
+│
+├── air_quality/          # Medidor de calidad del aire
+│   ├── README.md         # Documentación del sistema
+│   ├── air_quality_monitor.ino # Sketch principal
+│   ├── sensors/          # Sensores (PMS5003, MH-Z19B, CCS811, MQ-135)
+│   ├── examples/         # Ejemplos de configuración
+│   └── docs/             # Guías de interpretación y salud
 │
 ├── LIBRARIES.md          # Dependencias de librerías
 ├── TESTING.md            # Guía de pruebas
@@ -116,15 +124,55 @@ Sistema completo de medición de parámetros atmosféricos.
 
 ---
 
-## 🔧 Plataformas Soportadas
+## 💨 Sistema de Medición de Calidad del Aire
 
-El proyecto es compatible con múltiples microcontroladores:
+Sistema completo de monitoreo de contaminantes atmosféricos y calidad del aire.
 
-- ✅ **ESP8266** - WiFi integrado, ideal para IoT
-- ✅ **ESP32** - Mayor potencia y conectividad
-- ✅ **Arduino** (Uno, Mega, Nano) - Plataforma estándar
-- 🔄 **Raspberry Pi** - Para procesamiento avanzado
-- 🔄 **PIC** - Microcontroladores Microchip (en desarrollo)
+### Hardware
+- Arduino (Uno, Mega, Nano) / Raspberry Pi
+- Sensores de partículas: PMS5003, SDS011
+- Sensores de gases: MH-Z19B (CO₂), CCS811 (eCO₂/TVOC), MQ-135
+- Sensores ambientales: BME280, DHT22
+
+### Parámetros Monitoreados
+- 🔬 PM1.0, PM2.5, PM10 (partículas)
+- ☁️ CO₂ y eCO₂ (dióxido de carbono)
+- 🏭 TVOC (compuestos orgánicos volátiles)
+- ⚠️ CO (monóxido de carbono)
+- 🌡️ Temperatura, humedad, presión
+
+### Índices Calculados
+- AQI (Air Quality Index)
+- IAQ (Indoor Air Quality Index)
+- Alertas por umbrales de salud
+
+### Aplicaciones
+- Monitoreo de calidad del aire interior
+- Estaciones de monitoreo ambiental urbano
+- Control de ventilación automático
+- Alertas de salud para grupos sensibles
+
+**[Ver documentación completa →](air_quality/README.md)**
+
+---
+
+## 🔧 Plataformas Soportadas por Sistema
+
+El proyecto está segmentado por plataformas según las necesidades de cada sistema:
+
+### Por Sistema
+| Sistema | ESP8266 | ESP32 | Arduino | Raspberry Pi |
+|---------|---------|-------|---------|--------------|
+| 🔆 **Panel Solar** | ✅ Principal | ⚪ | ⚪ | ⚪ |
+| 🌱 **Invernadero** | ✅ | ✅ | ✅ | ⚪ |
+| 🌤️ **Meteorológica** | ✅ | ✅ | ✅ Mega | ✅ |
+| 💨 **Calidad Aire** | ⚪ | ⚪ | ✅ | ✅ |
+
+### Características por Plataforma
+- ✅ **ESP8266** - WiFi integrado, ideal para IoT (Panel Solar, Invernadero, Meteorológica)
+- ✅ **ESP32** - Mayor potencia, Bluetooth (Invernadero, Meteorológica)
+- ✅ **Arduino** (Uno, Mega, Nano) - Estándar, económico (Invernadero, Meteorológica, Calidad Aire)
+- ✅ **Raspberry Pi** - Procesamiento avanzado, Linux (Meteorológica, Calidad Aire)
 
 ---
 
@@ -150,11 +198,17 @@ Todos los sistemas soportan múltiples opciones de almacenamiento:
 
 ### Sensores Principales
 ```bash
+# Panel Solar y Meteorológica
 arduino-cli lib install "ACS712"
 arduino-cli lib install "DHT sensor library"
 arduino-cli lib install "Adafruit Unified Sensor"
 arduino-cli lib install "BH1750"
 arduino-cli lib install "Adafruit BME280 Library"
+
+# Calidad del Aire
+arduino-cli lib install "PMS Library"
+arduino-cli lib install "MH-Z19"
+arduino-cli lib install "Adafruit CCS811 Library"
 ```
 
 ### Comunicación
@@ -177,9 +231,10 @@ cd Ornidia
 
 ### 2. Seleccionar el sistema
 Navega al directorio del sistema que deseas usar:
-- `cd solar_panel/` para monitoreo solar
-- `cd greenhouse/` para invernadero
-- `cd weather_station/` para estación meteorológica
+- `cd solar_panel/` para monitoreo solar (ESP8266)
+- `cd greenhouse/` para invernadero (ESP32/ESP8266/Arduino)
+- `cd weather_station/` para estación meteorológica (ESP32/ESP8266/Arduino Mega/Raspberry Pi)
+- `cd air_quality/` para calidad del aire (Arduino/Raspberry Pi)
 
 ### 3. Instalar librerías
 ```bash
