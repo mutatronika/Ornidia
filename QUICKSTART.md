@@ -300,11 +300,13 @@ chmod +x verify_integrity.sh
 ## 📚 Documentación Completa
 
 - **[README.md](README.md)** - Descripción general del proyecto
+- **[PLATFORMS.md](PLATFORMS.md)** - Guía de plataformas y compatibilidad
 - **[LIBRARIES.md](LIBRARIES.md)** - Dependencias de librerías
 - **[TESTING.md](TESTING.md)** - Guía completa de pruebas
 - **[solar_panel/README.md](solar_panel/README.md)** - Sistema solar
 - **[greenhouse/README.md](greenhouse/README.md)** - Sistema de invernadero
 - **[weather_station/README.md](weather_station/README.md)** - Estación meteorológica
+- **[air_quality/README.md](air_quality/README.md)** - Sistema de calidad del aire
 
 ---
 

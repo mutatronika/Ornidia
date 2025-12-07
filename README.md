@@ -287,6 +287,7 @@ Failed: 0
 - 📘 **[TESTING.md](TESTING.md)** - Guía completa de pruebas y verificación
 - 📗 **[LIBRARIES.md](LIBRARIES.md)** - Dependencias y librerías requeridas
 - 📙 **[QUICKSTART.md](QUICKSTART.md)** - Guía rápida de inicio
+- 📋 **[PLATFORMS.md](PLATFORMS.md)** - Guía de plataformas y compatibilidad
 
 ### CI/CD
 
