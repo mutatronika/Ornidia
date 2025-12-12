@@ -2,11 +2,12 @@
 
 ## 🎯 Descripción
 
-Bienvenido a Ornidia, un proyecto de sistemas de monitoreo con microcontroladores dividido en tres áreas:
+Bienvenido a Ornidia, un proyecto de sistemas de monitoreo con microcontroladores dividido en cuatro áreas:
 
-1. **🔆 Panel Solar** - Monitoreo de energía solar
-2. **🌱 Invernadero** - Control ambiental para cultivos
-3. **🌤️ Estación Meteorológica** - Medición atmosférica
+1. **🔆 Panel Solar** - Monitoreo de energía solar (ESP8266)
+2. **🌱 Invernadero** - Control ambiental para cultivos (ESP32, ESP8266, Arduino)
+3. **🌤️ Estación Meteorológica** - Medición atmosférica (ESP32, ESP8266, Arduino Mega, Raspberry Pi)
+4. **💨 Calidad del Aire** - Monitoreo de contaminantes (Arduino, Raspberry Pi)
 
 Esta guía te ayudará a comenzar rápidamente con cualquiera de los sistemas.
 
@@ -15,13 +16,14 @@ Esta guía te ayudará a comenzar rápidamente con cualquiera de los sistemas.
 ## 📋 Requisitos Previos
 
 ### Hardware Mínimo
-- Microcontrolador: ESP8266, ESP32, o Arduino
+- Microcontrolador: ESP8266, ESP32, Arduino, o Raspberry Pi (según sistema)
 - Cable USB para programación
 - Sensores según el sistema elegido (ver secciones específicas)
 
 ### Software
 - Arduino IDE (1.8.x o superior) o arduino-cli
 - Git (opcional, para clonar el repositorio)
+- Para Raspberry Pi: Python 3.x y librerías GPIO
 
 ---
 
@@ -114,6 +116,42 @@ cd weather_station/
 ```
 
 **[Documentación completa →](weather_station/README.md)**
+
+---
+
+### 4️⃣ Sistema de Calidad del Aire
+
+**Hardware necesario:**
+- Arduino (Uno, Mega, Nano) o Raspberry Pi
+- PMS5003 o SDS011 (sensor de partículas)
+- MH-Z19B (sensor CO₂ NDIR)
+- CCS811 (sensor eCO₂/TVOC) - opcional
+- BME280 (temp/humedad/presión) - opcional
+- MQ-135 (sensor calidad aire) - opcional
+
+**Instalación de librerías:**
+```bash
+arduino-cli lib install "PMS Library"
+arduino-cli lib install "MH-Z19"
+arduino-cli lib install "Adafruit CCS811 Library"
+arduino-cli lib install "Adafruit BME280 Library"
+```
+
+**Cargar sketch:**
+```bash
+cd air_quality/
+# Abrir air_quality_monitor.ino en Arduino IDE
+# Seleccionar placa Arduino apropiada
+# Configurar sensores habilitados en el código
+# Compilar y cargar
+```
+
+**IMPORTANTE:**
+- Sensores MQ requieren 24-48h de pre-calentamiento
+- MH-Z19B necesita 3 minutos de warm-up
+- CCS811 requiere 48h de burn-in para precisión
+
+**[Documentación completa →](air_quality/README.md)**
 
 ---
 
@@ -221,6 +259,13 @@ Para ver los datos en tiempo real:
 3. Instalar sensores en carcasa exterior
 4. Configurar envío a servicios meteorológicos
 
+### Para Sistema de Calidad del Aire
+1. Pre-calentar sensores MQ (24-48h)
+2. Calibrar MH-Z19B en aire exterior
+3. Configurar umbrales de alerta
+4. Integrar con sistema de ventilación (opcional)
+5. Enviar datos a Sensor.Community o AirGradient
+
 ---
 
 ## 🐛 Solución Rápida de Problemas
@@ -255,11 +300,13 @@ chmod +x verify_integrity.sh
 ## 📚 Documentación Completa
 
 - **[README.md](README.md)** - Descripción general del proyecto
+- **[PLATFORMS.md](PLATFORMS.md)** - Guía de plataformas y compatibilidad
 - **[LIBRARIES.md](LIBRARIES.md)** - Dependencias de librerías
 - **[TESTING.md](TESTING.md)** - Guía completa de pruebas
 - **[solar_panel/README.md](solar_panel/README.md)** - Sistema solar
 - **[greenhouse/README.md](greenhouse/README.md)** - Sistema de invernadero
 - **[weather_station/README.md](weather_station/README.md)** - Estación meteorológica
+- **[air_quality/README.md](air_quality/README.md)** - Sistema de calidad del aire
 
 ---
 
